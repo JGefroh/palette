@@ -1,0 +1,8 @@
+<div>
+  <button data-ng-repeat="color in vm.colors"
+          data-ng-click="vm.selectColor(color)"
+          data-ng-style="{'background-color': color.hex}"
+          style="color: white;">
+    {{::$index}}
+  </button>
+</div>
