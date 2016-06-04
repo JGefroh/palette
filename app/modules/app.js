@@ -15,15 +15,5 @@
 
     function ApplicationController($rootScope, $state, $anchorScroll, ToolsService) {
       var vm = this;
-      vm.palette = {
-        tools: []
-      };
-      vm.palette.tools = ToolsService.getTools();
-
-      vm.selectedTool = vm.palette.tools[1];
-
-      vm.emit = function(event) {
-        $rootScope.$broadcast(event);
-      };
     }
 })();

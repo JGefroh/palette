@@ -1,0 +1,13 @@
+<div>
+  <div style="background-color: red; z-index: 99;">
+    <button data-ng-repeat="tool in vm.tools"
+            data-ng-click="vm.tool = tool;">
+      {{::tool.label}}
+    </button>
+    {{vm.tool}}
+  </div>
+  <div class="paper">
+    <canvas class="overlay"></canvas>
+    <canvas class="drawing"></canvas>
+  </div>
+</div>

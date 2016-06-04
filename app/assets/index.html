@@ -14,12 +14,6 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <colors data-color="applicationCtrl.selectedColor"></colors>
-    <button data-ng-repeat="tool in applicationCtrl.palette.tools"
-            data-ng-click="applicationCtrl.selectedTool = tool">
-      {{::tool.label}}
-    </button>
-    <button data-ng-click="applicationCtrl.emit('undo')">Undo</button>
-    <paper data-color="applicationCtrl.selectedColor" data-tool="applicationCtrl.selectedTool"></paper>
+    <paper></paper>
   </body>
 </html>
