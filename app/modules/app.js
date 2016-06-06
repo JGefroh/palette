@@ -5,15 +5,10 @@
     .module('palette',
     [
         'ui.router',
-        'palette.home'
+        'palette.draw'
     ])
     .constant('baseImagePath', '/images/')
     .config(['$urlRouterProvider', '$locationProvider', function($urlRouterProvider, $locationProvider) {
       $urlRouterProvider.otherwise('/');
-    }])
-    .controller('ApplicationController', ['$rootScope', '$state', '$anchorScroll', 'ToolsService', ApplicationController]);
-
-    function ApplicationController($rootScope, $state, $anchorScroll, ToolsService) {
-      var vm = this;
-    }
+    }]);
 })();

@@ -1,13 +1,9 @@
 (function() {
   'use strict';
   angular
-    .module('palette.home', [])
+    .module('palette.draw', [])
     .config(['$stateProvider', Routes]);
 
   function Routes($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/',
-        templateUrl: 'home.html'
-    });
   }
 })();

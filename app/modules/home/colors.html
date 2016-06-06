@@ -1,8 +1,9 @@
-<div>
+<div class="colors">
   <button data-ng-repeat="color in vm.colors"
           data-ng-click="vm.selectColor(color)"
-          data-ng-style="{'background-color': color.hex}"
-          style="color: white;">
-    {{::$index}}
+          data-ng-style="{'background-color': color.hex, 'color': color.hex === '#FFFFFF' ? '#000000' : ''}"
+          class="color">
+    <span data-ng-if="color.hex == vm.color.hex">&#10003;</span>
+    <span data-ng-if="color.hex != vm.color.hex">&nbsp;</span>
   </button>
 </div>
