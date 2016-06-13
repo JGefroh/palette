@@ -107,6 +107,8 @@
                 if (_isMouseDown) {
                   drawingCtx.lineTo(coordinates.x, coordinates.y);
                   drawingCtx.stroke();
+                  drawingCtx.beginPath();
+                  drawingCtx.moveTo(coordinates.x, coordinates.y);
                 }
               },
               end: function(coordinates) {
