@@ -18,14 +18,16 @@ html, body {
 .toolbar {
   border: 8px solid rgb(182, 182, 182);
   border-bottom: none;
+  display: block;
+  font-size: 0;
 }
   .tool {
     background-color: rgb(183, 204, 174);
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0.25rem;
     height: 2rem;
-    width: 2rem;
+    font-size: initial;
 
     &:hover {
       transition: 0.3s all;
@@ -37,10 +39,15 @@ html, body {
       outline: none;
       border: none;
     }
+
+    &.active {
+      color: white;
+    }
   }
 
 .colors {
   border: 8px solid rgb(182, 182, 182);
+  display: block;
 }
 
 .color {

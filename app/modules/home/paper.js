@@ -28,6 +28,7 @@
         var _future = [];
         var _DEFAULT_COLOR = 'black';
         var _DEFAULT_LINE_WIDTH = 10;
+        var _lineWidth = _DEFAULT_LINE_WIDTH;
         var _previousStates = [];
         var _currentState = null;
         var _isMouseDown = false;
@@ -46,6 +47,7 @@
         function initializeListeners() {
           scope.$on('tool:undo:request', undo);
           scope.$on('tool:redo:request', redo);
+          scope.$on('tool:brush:resize', resizeBrush);
         }
 
         function initializeColorChangeWatcher() {
@@ -72,7 +74,7 @@
 
         function initializeCrayon() {
           drawingCtx.lineCap = 'round';
-          drawingCtx.lineWidth = _DEFAULT_LINE_WIDTH;
+          drawingCtx.lineWidth = _lineWidth;
         }
 
         function initializeTools() {
@@ -80,10 +82,12 @@
             {
               label: 'Pencil',
               start: function(coordinates) {
-                saveState(_history);
-                branchFuture();
-                drawingCtx.beginPath();
-                drawingCtx.moveTo(coordinates.x, coordinates.y);
+                if (!_isMouseDown) {
+                  saveState(_history);
+                  branchFuture();
+                  drawingCtx.beginPath();
+                  drawingCtx.moveTo(coordinates.x, coordinates.y);
+                }
                 _isMouseDown = true;
               },
               preProcess: function(coordinates) {
@@ -94,7 +98,7 @@
               },
               process: function(coordinates) {
                 overlayCtx.beginPath();
-                overlayCtx.arc(coordinates.x, coordinates.y, _DEFAULT_LINE_WIDTH / 2, 0, 2 * Math.PI, false);
+                overlayCtx.arc(coordinates.x, coordinates.y, _lineWidth / 2, 0, 2 * Math.PI, false);
                 overlayCtx.fill();
                 overlayCtx.stroke();
                 if (_isMouseDown) {
@@ -133,6 +137,24 @@
           scope.vm.tool.end(getMousePosition(event));
         }
 
+        function dispatch(event) {
+          if (event.keyCode > 48 && event.keyCode <= 57) {
+            _lineWidth = (event.keyCode - 48) * 5;
+            drawingCtx.lineWidth = _lineWidth;
+          }
+          else if (event.keyCode === 48) {
+            _lineWidth = _DEFAULT_LINE_WIDTH;
+            drawingCtx.lineWidth = _lineWidth;
+          }
+        }
+
+        function resizeBrush(event, size) {
+          _lineWidth = size;
+          if (!size) {
+            _lineWidth = _DEFAULT_LINE_WIDTH;
+          }
+          drawingCtx.lineWidth = _lineWidth;
+        }
         //Utils
 
         function branchFuture() {
