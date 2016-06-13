@@ -93,14 +93,17 @@
               preProcess: function(coordinates) {
                 overlayCtx.save();
                 overlayCtx.fillStyle = "#FFFFFF";
-                overlayCtx.fillRect(0, 0, overlayCtx.canvas.width, overlayCtx.canvas.height);
+                overlayCtx.clearRect(0, 0, overlayCtx.canvas.width, overlayCtx.canvas.height);
                 overlayCtx.restore();
               },
               process: function(coordinates) {
+                overlayCtx.save();
+                overlayCtx.strokeStyle = "#000000";
                 overlayCtx.beginPath();
                 overlayCtx.arc(coordinates.x, coordinates.y, _lineWidth / 2, 0, 2 * Math.PI, false);
                 overlayCtx.fill();
                 overlayCtx.stroke();
+                overlayCtx.restore();
                 if (_isMouseDown) {
                   drawingCtx.lineTo(coordinates.x, coordinates.y);
                   drawingCtx.stroke();
