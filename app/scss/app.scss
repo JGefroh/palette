@@ -15,6 +15,30 @@ html, body {
   padding: 0.25rem;
 }
 
+.toolbar {
+  border: 8px solid rgb(182, 182, 182);
+  border-bottom: none;
+}
+  .tool {
+    background-color: rgb(183, 204, 174);
+    border: none;
+    margin: 0;
+    padding: 0;
+    height: 2rem;
+    width: 2rem;
+
+    &:hover {
+      transition: 0.3s all;
+      transform: scale(1.5);
+      transform-style: preserve-3d;
+      z-index: 99;
+    }
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+
 .colors {
   border: 8px solid rgb(182, 182, 182);
 }
@@ -43,6 +67,7 @@ html, body {
 
 .paper {
   width: 100%;
+  cursor: none;
   canvas {
     position: absolute;
     padding: 0;

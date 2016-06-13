@@ -4,14 +4,17 @@
     .module('palette.draw')
     .directive('paper', Directive);
   function Directive() {
-    function Controller() {
+    function Controller($rootScope) {
       var vm = this;
+      $rootScope.$on('', function() {
+
+      });
     }
 
     return {
       restrict: 'AE',
       templateUrl: 'paper.html',
-      controller: [Controller],
+      controller: ['$rootScope', Controller],
       controllerAs: 'vm',
       bindToController: true,
       replace: true,
@@ -21,6 +24,8 @@
       link: function(scope, element, attributes) {
         var overlayCtx = element[0].children[0].getContext("2d");
         var drawingCtx = element[0].children[1].getContext("2d");
+        var _history = [];
+        var _future = [];
         var _DEFAULT_COLOR = 'black';
         var _DEFAULT_LINE_WIDTH = 10;
         var _previousStates = [];
@@ -34,7 +39,13 @@
           initializeColorChangeWatcher();
           initializeCrayon();
           initializeTools();
+          initializeListeners();
           scope.vm.tool = scope.vm.tools[0];
+        }
+
+        function initializeListeners() {
+          scope.$on('tool:undo:request', undo);
+          scope.$on('tool:redo:request', redo);
         }
 
         function initializeColorChangeWatcher() {
@@ -69,6 +80,8 @@
             {
               label: 'Pencil',
               start: function(coordinates) {
+                saveState(_history);
+                branchFuture();
                 drawingCtx.beginPath();
                 drawingCtx.moveTo(coordinates.x, coordinates.y);
                 _isMouseDown = true;
@@ -121,6 +134,34 @@
         }
 
         //Utils
+
+        function branchFuture() {
+          _future = [];
+        }
+
+        function undo() {
+          if (_history.length) {
+            var previousState = _history.pop();
+            saveState(_future);
+            drawingCtx.putImageData(previousState, 0, 0);
+          }
+        }
+
+        function redo() {
+          if (_future.length) {
+            var nextState = _future.pop();
+            saveState(_history);
+            drawingCtx.putImageData(nextState, 0, 0);
+          }
+        }
+
+        function saveState(where) {
+          where.push(getState(drawingCtx));
+        }
+
+        function getState(context) {
+          return context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+        }
 
         function resizeCanvas(context) {
           var drawing = context.getImageData(0,0, context.canvas.width, context.canvas.height);
